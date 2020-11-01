@@ -6,16 +6,22 @@ const registerSchema = Schema({
         type: String
     },
     email: {
-         type: String
+         type: String,
+         unique: true,
     },
     phone_number: {
-         type: Number
+         type: Number,
+         unique: true,
+         minlength: 10,
+         maxlength: 10
     },
     license_number: {
-         type: String
+         type: String,
+         unique: true,
     },
     car_number: {
-         type: String
+         type: String,
+         unique: true,
     },
 })
 
