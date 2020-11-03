@@ -12,14 +12,13 @@ router.get("/", function (req, res, next) {
 router.post("/api/v1/driver/register/", async (req, res, next) => {
   const { name, email, phone_number, license_number, car_number } = req.body;
 
+  /* check for exisiting email,phone,license,car number */
+
   let isEmail = await Register.find({ email: req.body.email });
-
   let isPhone = await Register.find({ phone_number: req.body.phone_number });
-
   let isLicenseNumber = await Register.find({
     license_number: req.body.license_number,
   });
-
   let isCarNumber = await Register.find({ car_number: req.body.car_number });
   try {
     if (
@@ -46,6 +45,30 @@ router.post("/api/v1/driver/register/", async (req, res, next) => {
       .status(400)
       .send({ status: "failure", reason: "Sorry, something went wrong!" });
   }
+});
+
+router.post('/api/v1/driver/:id/sendLocation/', async (req, res) => {
+
+  if (!req.params.id || !req.body.latitude || !req.body.longitude) {
+    return res.status(400).send({ status: 'failure', reason: 'Invalid updates.!' })
+  }
+  try {
+   const driverLocation = await Register.findOne({ _id: req.params.id })
+ 
+    driverLocation.latitude = req.body.latitude;
+    driverLocation.longitude = req.body.longitude;
+    driverLocation.save()
+    res.status(202).send({ status: "success" });
+  } catch (e) {
+    res
+      .status(400)
+      .send({ status: "failure", reason: "Sorry, something went wrong!" });
+  }
+})
+
+router.post("/api/v1/passenger/available_cabs/", async (req, res) => {
+  
+
 });
 
 module.exports = router;

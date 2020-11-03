@@ -1,3 +1,4 @@
+const { Double } = require('mongodb');
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
@@ -22,6 +23,12 @@ const registerSchema = Schema({
     car_number: {
          type: String,
          unique: true,
+    },
+    latitude: {
+        type: String,
+    },
+    longitude: {
+        type: String
     },
 })
 
